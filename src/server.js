@@ -17,9 +17,12 @@ const itemRoutes = require('./routes/items');
 app.use('/api/champions', championRoutes);
 app.use('/api/items', itemRoutes);
 
-// Root route - API documentatie
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/overview.html'));
 });
 
 // 404 handler

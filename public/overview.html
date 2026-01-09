@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>League of Legends - Champions & Items</title>
+    <link rel="stylesheet" href="overview-styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1>🎮 LoL Database</h1>
+            <div class="nav-links">
+                <a href="/">API Docs</a>
+                <a href="/overview.html" class="active">Overview</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="champions-section">
+            <h2>Champions</h2>
+            <div class="filter-bar">
+                <select id="roleFilter">
+                    <option value="">All Roles</option>
+                    <option value="Tank">Tank</option>
+                    <option value="Fighter">Fighter</option>
+                    <option value="Assassin">Assassin</option>
+                    <option value="Mage">Mage</option>
+                    <option value="Marksman">Marksman</option>
+                    <option value="Support">Support</option>
+                </select>
+                <select id="sortChampions">
+                    <option value="name">Name</option>
+                    <option value="difficulty">Difficulty</option>
+                    <option value="release_date">Release Date</option>
+                </select>
+            </div>
+            <div id="championsGrid" class="grid loading">
+                <p>Loading champions...</p>
+            </div>
+        </section>
+
+        <section class="items-section">
+            <h2>Items</h2>
+            <div class="filter-bar">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Damage">Damage</option>
+                    <option value="Defense">Defense</option>
+                    <option value="Magic">Magic</option>
+                    <option value="Movement">Movement</option>
+                    <option value="Consumable">Consumable</option>
+                </select>
+                <select id="sortItems">
+                    <option value="name">Name</option>
+                    <option value="cost">Cost</option>
+                </select>
+            </div>
+            <div id="itemsGrid" class="grid loading">
+                <p>Loading items...</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="overview.js"></script>
+</body>
+</html>
