@@ -3,363 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>League of Legends API Documentatie</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>League of Legends API</title>
+    <link rel="stylesheet" href="main-styles.css">
 </head>
 <body>
-    <div class="intro">
-        <h1>League of Legends API</h1>
-        <p>Welkom bij de League of Legends Champions en Items API. Deze API biedt endpoints om champions en items te beheren.</p>
-        <p><strong>Base URL:</strong> <code>http://localhost:3000</code></p>
+    <nav>
+        <div class="nav-container">
+            <h1>League of Legends API</h1>
+            <div class="nav-tabs">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="api-docs">API Docs</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="overview" class="tab-content active">
+        <div class="container">
+            <section class="champions-section">
+                <div class="section-header">
+                    <h2>Champions</h2>
+                    <button class="btn-primary" onclick="openAddModal('champion')">+ Add Champion</button>
+                </div>
+                
+                <div class="filter-bar">
+                    <select id="roleFilter">
+                        <option value="">All Roles</option>
+                        <option value="Tank">Tank</option>
+                        <option value="Fighter">Fighter</option>
+                        <option value="Assassin">Assassin</option>
+                        <option value="Mage">Mage</option>
+                        <option value="Marksman">Marksman</option>
+                        <option value="Support">Support</option>
+                    </select>
+                    <select id="sortChampions">
+                        <option value="name">Name</option>
+                        <option value="difficulty">Difficulty</option>
+                        <option value="release_date">Release Date</option>
+                    </select>
+                    <input type="text" id="searchChampions" placeholder="Search champions...">
+                </div>
+                
+                <div id="championsGrid" class="grid loading">
+                    <p>Loading champions...</p>
+                </div>
+            </section>
+
+            <section class="items-section">
+                <div class="section-header">
+                    <h2>Items</h2>
+                    <button class="btn-primary" onclick="openAddModal('item')">+ Add Item</button>
+                </div>
+                
+                <div class="filter-bar">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Damage">Damage</option>
+                        <option value="Defense">Defense</option>
+                        <option value="Magic">Magic</option>
+                        <option value="Movement">Movement</option>
+                        <option value="Consumable">Consumable</option>
+                    </select>
+                    <select id="sortItems">
+                        <option value="name">Name</option>
+                        <option value="cost">Cost</option>
+                    </select>
+                    <input type="text" id="searchItems" placeholder="Search items...">
+                </div>
+                
+                <div id="itemsGrid" class="grid loading">
+                    <p>Loading items...</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div id="api-docs" class="tab-content">
+        <div class="container-docs">
+            <div class="intro">
+                <h1>API Documentation</h1>
+                <p>Complete documentation voor de League of Legends Champions en Items API.</p>
+                <p><strong>Base URL:</strong> <code>http://localhost:3000</code></p>
+            </div>
+
+            <h2>Champions Endpoints</h2>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> <span class="url">/api/champions</span></h3>
+                <p>Haal alle champions op met pagination, search en filtering.</p>
+                
+                <h4>Query Parameters:</h4>
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Beschrijving</th>
+                    </tr>
+                    <tr>
+                        <td><code>limit</code></td>
+                        <td>integer</td>
+                        <td>Aantal resultaten (default: 10)</td>
+                    </tr>
+                    <tr>
+                        <td><code>offset</code></td>
+                        <td>integer</td>
+                        <td>Aantal overslaan (default: 0)</td>
+                    </tr>
+                    <tr>
+                        <td><code>search</code></td>
+                        <td>string</td>
+                        <td>Zoek op naam of titel</td>
+                    </tr>
+                    <tr>
+                        <td><code>role</code></td>
+                        <td>string</td>
+                        <td>Filter op role</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort</code></td>
+                        <td>string</td>
+                        <td>Sorteer op veld</td>
+                    </tr>
+                    <tr>
+                        <td><code>order</code></td>
+                        <td>string</td>
+                        <td>asc of desc</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> <span class="url">/api/champions/:id</span></h3>
+                <p>Haal één champion op.</p>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method post">POST</span> <span class="url">/api/champions</span></h3>
+                <p>Voeg nieuwe champion toe.</p>
+                
+                <h4>Required Fields:</h4>
+                <ul>
+                    <li><code>name</code> - String (alleen letters)</li>
+                    <li><code>title</code> - String</li>
+                    <li><code>role</code> - Tank, Fighter, Assassin, Mage, Marksman, Support</li>
+                    <li><code>difficulty</code> - Integer (1-10)</li>
+                    <li><code>release_date</code> - String (YYYY-MM-DD, moet in verleden)</li>
+                    <li><code>lore</code> - String (optioneel)</li>
+                </ul>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method put">PUT</span> <span class="url">/api/champions/:id</span></h3>
+                <p>Update bestaande champion. Zelfde velden als POST.</p>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method delete">DELETE</span> <span class="url">/api/champions/:id</span></h3>
+                <p>Verwijder champion.</p>
+            </div>
+
+            <h2>Items Endpoints</h2>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> <span class="url">/api/items</span></h3>
+                <p>Haal alle items op. Zelfde query parameters als champions.</p>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method post">POST</span> <span class="url">/api/items</span></h3>
+                <p>Voeg nieuw item toe.</p>
+                
+                <h4>Required Fields:</h4>
+                <ul>
+                    <li><code>name</code> - String</li>
+                    <li><code>description</code> - String</li>
+                    <li><code>cost</code> - Integer (>= 0)</li>
+                    <li><code>category</code> - Damage, Defense, Magic, Movement, Consumable</li>
+                    <li><code>stats</code> - String (optioneel)</li>
+                </ul>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method put">PUT</span> <span class="url">/api/items/:id</span></h3>
+                <p>Update item.</p>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method delete">DELETE</span> <span class="url">/api/items/:id</span></h3>
+                <p>Verwijder item.</p>
+            </div>
+        </div>
     </div>
 
-    <h2>Champions Endpoints</h2>
-
-    <div class="endpoint">
-        <h3><span class="method get">GET</span> <span class="url">/api/champions</span></h3>
-        <p>Haal alle champions op. Ondersteunt pagination, zoeken en filtering.</p>
-        
-        <h4>Query Parameters:</h4>
-        <table>
-            <tr>
-                <th>Parameter</th>
-                <th>Type</th>
-                <th>Beschrijving</th>
-                <th>Voorbeeld</th>
-            </tr>
-            <tr>
-                <td><code>limit</code></td>
-                <td>integer</td>
-                <td>Aantal resultaten per pagina (default: 10)</td>
-                <td>?limit=5</td>
-            </tr>
-            <tr>
-                <td><code>offset</code></td>
-                <td>integer</td>
-                <td>Aantal resultaten om over te slaan (default: 0)</td>
-                <td>?offset=10</td>
-            </tr>
-            <tr>
-                <td><code>search</code></td>
-                <td>string</td>
-                <td>Zoek op naam of titel</td>
-                <td>?search=Yasuo</td>
-            </tr>
-            <tr>
-                <td><code>role</code></td>
-                <td>string</td>
-                <td>Filter op role</td>
-                <td>?role=Assassin</td>
-            </tr>
-            <tr>
-                <td><code>sort</code></td>
-                <td>string</td>
-                <td>Sorteer op veld (default: name)</td>
-                <td>?sort=difficulty</td>
-            </tr>
-            <tr>
-                <td><code>order</code></td>
-                <td>string</td>
-                <td>Sorteer richting: asc of desc (default: asc)</td>
-                <td>?order=desc</td>
-            </tr>
-        </table>
-
-        <h4>Voorbeeld Response:</h4>
-        <pre>{
-  "data": [
-    {
-      "id": 1,
-      "name": "Yasuo",
-      "title": "the Unforgiven",
-      "role": "Assassin",
-      "difficulty": 8,
-      "release_date": "2013-12-13",
-      "lore": "An Ionian of deep resolve...",
-      "created_at": "2024-12-22 10:00:00"
-    }
-  ],
-  "pagination": {
-    "total": 50,
-    "limit": 10,
-    "offset": 0,
-    "total_pages": 5
-  }
-}</pre>
+    <!-- MODAL: Add/Edit Champion -->
+    <div id="championModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('champion')">&times;</span>
+            <h2 id="championModalTitle">Add Champion</h2>
+            <form id="championForm">
+                <input type="hidden" id="championId">
+                
+                <label>Name *</label>
+                <input type="text" id="championName" required>
+                
+                <label>Title *</label>
+                <input type="text" id="championTitle" required>
+                
+                <label>Role *</label>
+                <select id="championRole" required>
+                    <option value="">Select role...</option>
+                    <option value="Tank">Tank</option>
+                    <option value="Fighter">Fighter</option>
+                    <option value="Assassin">Assassin</option>
+                    <option value="Mage">Mage</option>
+                    <option value="Marksman">Marksman</option>
+                    <option value="Support">Support</option>
+                </select>
+                
+                <label>Difficulty (1-10) *</label>
+                <input type="number" id="championDifficulty" min="1" max="10" required>
+                
+                <label>Release Date *</label>
+                <input type="date" id="championReleaseDate" required>
+                
+                <label>Lore</label>
+                <textarea id="championLore" rows="4"></textarea>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('champion')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div class="endpoint">
-        <h3><span class="method get">GET</span> <span class="url">/api/champions/:id</span></h3>
-        <p>Haal één specifieke champion op aan de hand van ID.</p>
-        
-        <h4>Voorbeeld:</h4>
-        <code>GET /api/champions/1</code>
-
-        <h4>Response:</h4>
-        <pre>{
-  "id": 1,
-  "name": "Yasuo",
-  "title": "the Unforgiven",
-  "role": "Assassin",
-  "difficulty": 8,
-  "release_date": "2013-12-13",
-  "lore": "An Ionian of deep resolve...",
-  "created_at": "2024-12-22 10:00:00"
-}</pre>
+    <!-- MODAL: Add/Edit Item -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('item')">&times;</span>
+            <h2 id="itemModalTitle">Add Item</h2>
+            <form id="itemForm">
+                <input type="hidden" id="itemId">
+                
+                <label>Name *</label>
+                <input type="text" id="itemName" required>
+                
+                <label>Description *</label>
+                <textarea id="itemDescription" rows="3" required></textarea>
+                
+                <label>Cost *</label>
+                <input type="number" id="itemCost" min="0" required>
+                
+                <label>Category *</label>
+                <select id="itemCategory" required>
+                    <option value="">Select category...</option>
+                    <option value="Damage">Damage</option>
+                    <option value="Defense">Defense</option>
+                    <option value="Magic">Magic</option>
+                    <option value="Movement">Movement</option>
+                    <option value="Consumable">Consumable</option>
+                </select>
+                
+                <label>Stats</label>
+                <input type="text" id="itemStats" placeholder="+70 Attack Damage, +20% Crit">
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('item')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div class="endpoint">
-        <h3><span class="method post">POST</span> <span class="url">/api/champions</span></h3>
-        <p>Voeg een nieuwe champion toe aan de database.</p>
-        
-        <h4>Request Body:</h4>
-        <table>
-            <tr>
-                <th>Veld</th>
-                <th>Type</th>
-                <th>Verplicht</th>
-                <th>Validatie</th>
-            </tr>
-            <tr>
-                <td><code>name</code></td>
-                <td>string</td>
-                <td>Ja</td>
-                <td>Alleen letters, niet leeg</td>
-            </tr>
-            <tr>
-                <td><code>title</code></td>
-                <td>string</td>
-                <td>Ja</td>
-                <td>Niet leeg</td>
-            </tr>
-            <tr>
-                <td><code>role</code></td>
-                <td>string</td>
-                <td>Ja</td>
-                <td>Tank, Fighter, Assassin, Mage, Marksman, Support</td>
-            </tr>
-            <tr>
-                <td><code>difficulty</code></td>
-                <td>integer</td>
-                <td>Ja</td>
-                <td>1-10</td>
-            </tr>
-            <tr>
-                <td><code>release_date</code></td>
-                <td>string</td>
-                <td>Ja</td>
-                <td>YYYY-MM-DD formaat, moet in verleden liggen</td>
-            </tr>
-            <tr>
-                <td><code>lore</code></td>
-                <td>string</td>
-                <td>Nee</td>
-                <td>-</td>
-            </tr>
-        </table>
-
-        <h4>Voorbeeld Request:</h4>
-        <pre>{
-  "name": "Zed",
-  "title": "the Master of Shadows",
-  "role": "Assassin",
-  "difficulty": 7,
-  "release_date": "2012-11-13",
-  "lore": "The first ninja in 200 years..."
-}</pre>
-    </div>
-
-    <div class="endpoint">
-        <h3><span class="method put">PUT</span> <span class="url">/api/champions/:id</span></h3>
-        <p>Update een bestaande champion.</p>
-        
-        <h4>Request Body:</h4>
-        <p>Zelfde structuur als POST endpoint.</p>
-
-        <h4>Voorbeeld:</h4>
-        <code>PUT /api/champions/1</code>
-    </div>
-
-    <div class="endpoint">
-        <h3><span class="method delete">DELETE</span> <span class="url">/api/champions/:id</span></h3>
-        <p>Verwijder een champion uit de database.</p>
-        
-        <h4>Voorbeeld:</h4>
-        <code>DELETE /api/champions/1</code>
-    </div>
-
-    <h2>Items Endpoints</h2>
-
-    <div class="endpoint">
-        <h3><span class="method get">GET</span> <span class="url">/api/items</span></h3>
-        <p>Haal alle items op. Ondersteunt pagination, zoeken en filtering.</p>
-        
-        <h4>Query Parameters:</h4>
-        <table>
-            <tr>
-                <th>Parameter</th>
-                <th>Type</th>
-                <th>Beschrijving</th>
-                <th>Voorbeeld</th>
-            </tr>
-            <tr>
-                <td><code>limit</code></td>
-                <td>integer</td>
-                <td>Aantal resultaten per pagina (default: 10)</td>
-                <td>?limit=5</td>
-            </tr>
-            <tr>
-                <td><code>offset</code></td>
-                <td>integer</td>
-                <td>Aantal resultaten om over te slaan (default: 0)</td>
-                <td>?offset=10</td>
-            </tr>
-            <tr>
-                <td><code>search</code></td>
-                <td>string</td>
-                <td>Zoek op naam of beschrijving</td>
-                <td>?search=Blade</td>
-            </tr>
-            <tr>
-                <td><code>category</code></td>
-                <td>string</td>
-                <td>Filter op category</td>
-                <td>?category=Damage</td>
-            </tr>
-            <tr>
-                <td><code>sort</code></td>
-                <td>string</td>
-                <td>Sorteer op veld (default: name)</td>
-                <td>?sort=cost</td>
-            </tr>
-            <tr>
-                <td><code>order</code></td>
-                <td>string</td>
-                <td>Sorteer richting: asc of desc</td>
-                <td>?order=desc</td>
-            </tr>
-        </table>
-
-        <h4>Voorbeeld Response:</h4>
-        <pre>{
-  "data": [
-    {
-      "id": 1,
-      "name": "Infinity Edge",
-      "description": "Massively increases critical strike damage",
-      "cost": 3400,
-      "category": "Damage",
-      "stats": "+70 Attack Damage, +20% Critical Strike Chance",
-      "created_at": "2024-12-22 10:00:00"
-    }
-  ],
-  "pagination": {
-    "total": 30,
-    "limit": 10,
-    "offset": 0,
-    "total_pages": 3
-  }
-}</pre>
-    </div>
-
-    <div class="endpoint">
-        <h3><span class="method get">GET</span> <span class="url">/api/items/:id</span></h3>
-        <p>Haal één specifiek item op aan de hand van ID.</p>
-        
-        <h4>Voorbeeld:</h4>
-        <code>GET /api/items/1</code>
-    </div>
-
-    <div class="endpoint">
-        <h3><span class="method post">POST</span> <span class="url">/api/items</span></h3>
-        <p>Voeg een nieuw item toe aan de database.</p>
-        
-        <h4>Request Body:</h4>
-        <table>
-            <tr>
-                <th>Veld</th>
-                <th>Type</th>
-                <th>Verplicht</th>
-                <th>Validatie</th>
-            </tr>
-            <tr>
-                <td><code>name</code></td>
-                <td>string</td>
-                <td>Ja</td>
-                <td>Niet leeg</td>
-            </tr>
-            <tr>
-                <td><code>description</code></td>
-                <td>string</td>
-                <td>Ja</td>
-                <td>Niet leeg</td>
-            </tr>
-            <tr>
-                <td><code>cost</code></td>
-                <td>integer</td>
-                <td>Ja</td>
-                <td>Moet een getal zijn, >= 0</td>
-            </tr>
-            <tr>
-                <td><code>category</code></td>
-                <td>string</td>
-                <td>Ja</td>
-                <td>Damage, Defense, Magic, Movement, Consumable</td>
-            </tr>
-            <tr>
-                <td><code>stats</code></td>
-                <td>string</td>
-                <td>Nee</td>
-                <td>-</td>
-            </tr>
-        </table>
-
-        <h4>Voorbeeld Request:</h4>
-        <pre>{
-  "name": "Rabadon's Deathcap",
-  "description": "Increases ability power",
-  "cost": 3600,
-  "category": "Magic",
-  "stats": "+120 Ability Power, +35% Ability Power"
-}</pre>
-    </div>
-
-    <div class="endpoint">
-        <h3><span class="method put">PUT</span> <span class="url">/api/items/:id</span></h3>
-        <p>Update een bestaand item.</p>
-        
-        <h4>Request Body:</h4>
-        <p>Zelfde structuur als POST endpoint.</p>
-    </div>
-
-    <div class="endpoint">
-        <h3><span class="method delete">DELETE</span> <span class="url">/api/items/:id</span></h3>
-        <p>Verwijder een item uit de database.</p>
-        
-        <h4>Voorbeeld:</h4>
-        <code>DELETE /api/items/1</code>
-    </div>
-
-    <h2>Error Responses</h2>
-    <div class="endpoint">
-        <h4>400 Bad Request - Validatie Error:</h4>
-        <pre>{
-  "error": "Validation failed",
-  "details": [
-    "Name is required",
-    "Difficulty must be between 1 and 10"
-  ]
-}</pre>
-
-        <h4>404 Not Found:</h4>
-        <pre>{
-  "error": "Champion not found"
-}</pre>
-
-        <h4>500 Internal Server Error:</h4>
-        <pre>{
-  "error": "Something went wrong!"
-}</pre>
-    </div>
+    <script src="main-app.js"></script>
 </body>
 </html>
