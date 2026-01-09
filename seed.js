@@ -109,9 +109,19 @@ async function seedDatabase() {
         console.log('Adding champions to database...');
         let championCount = 0;
         
+        // Generate random release dates between 2009 and 2024
+        function getRandomReleaseDate() {
+            const startYear = 2009;
+            const endYear = 2024;
+            const year = startYear + Math.floor(Math.random() * (endYear - startYear + 1));
+            const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+            const day = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+        
         for (const champion of champions) {
             try {
-                const releaseDate = '2009-01-01'; 
+                const releaseDate = getRandomReleaseDate();
                 
                 const role = mapChampionRole(champion.tags);
                 const difficulty = Math.min(10, Math.max(1, Math.round(champion.info.difficulty)));
