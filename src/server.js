@@ -6,6 +6,35 @@ const db = require('./database');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+    const timestamp = new Date().toISOString();
+    console.log('\n' + '='.repeat(60));
+    console.log(`📡 [${timestamp}] ${req.method} ${req.url}`);
+    if (Object.keys(req.query).length > 0) {
+        console.log('📋 Query params:', JSON.stringify(req.query, null, 2));
+    }
+    if (req.body && Object.keys(req.body).length > 0) {
+        console.log('📦 Request body:', JSON.stringify(req.body, null, 2));
+    }
+    
+    const oldSend = res.send;
+    res.send = function(data) {
+        console.log('✅ Response status:', res.statusCode);
+        if (data) {
+            try {
+                const parsed = JSON.parse(data);
+                console.log('📤 Response data:', JSON.stringify(parsed, null, 2));
+            } catch (e) {
+                console.log('📤 Response:', data.substring(0, 200));
+            }
+        }
+        console.log('='.repeat(60) + '\n');
+        oldSend.apply(res, arguments);
+    };
+    
+    next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

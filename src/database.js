@@ -9,13 +9,38 @@ if (!fs.existsSync(dbDir)) {
 
 const dbPath = path.join(dbDir, 'lol.db');
 
-const db = new sqlite3.Database(dbPath, (err) => {
+const originalDB = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error connecting to database:', err.message);
     } else {
         console.log('Connected to SQLite database');
     }
 });
+
+
+const db = {
+    get: function(sql, params, callback) {
+        console.log('🗄️  DB Query (GET):', sql);
+        if (params && params.length > 0) console.log('   Params:', params);
+        return originalDB.get(sql, params, callback);
+    },
+    all: function(sql, params, callback) {
+        console.log('🗄️  DB Query (ALL):', sql);
+        if (params && params.length > 0) console.log('   Params:', params);
+        return originalDB.all(sql, params, callback);
+    },
+    run: function(sql, params, callback) {
+        console.log('🗄️  DB Query (RUN):', sql);
+        if (params && params.length > 0) console.log('   Params:', params);
+        return originalDB.run(sql, params, callback);
+    },
+    serialize: function(callback) {
+        return originalDB.serialize(callback);
+    },
+    close: function(callback) {
+        return originalDB.close(callback);
+    }
+};
 
 db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS items`);
