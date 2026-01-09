@@ -34,8 +34,6 @@ npm start
 
 5. Open je browser en ga naar:
 - API Documentatie: http://localhost:3000
-- Visual Overview: http://localhost:3000/overview.html
-- Test een endpoint: http://localhost:3000/api/champions
 
 
 ```
@@ -187,10 +185,3 @@ Dit project maakt gebruik van de volgende bronnen en documentatie:
 - Error handling patterns in Express
 - REST API design principles
 - SQLite transaction handling met db.serialize()
-
-
-## 📝 Opmerkingen
-
-- De database (lol.db) wordt automatisch aangemaakt bij eerste gebruik
-- Seed script kan herhaaldelijk uitgevoerd worden
-- API documentatie bevat alle beschikbare endpoints en voorbeelden
