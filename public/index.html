@@ -120,7 +120,7 @@
                     <tr>
                         <td><code>sort</code></td>
                         <td>string</td>
-                        <td>Sorteer op veld</td>
+                        <td>Sorteer op veld (name, difficulty, release_date)</td>
                     </tr>
                     <tr>
                         <td><code>order</code></td>
@@ -128,11 +128,17 @@
                         <td>asc of desc</td>
                     </tr>
                 </table>
+
+                <button class="btn-primary" onclick="testAPI('GET', '/api/champions?limit=2&role=Mage', 'example1')">Test Voorbeeld</button>
+                <div id="example1" class="api-example"></div>
             </div>
 
             <div class="endpoint">
                 <h3><span class="method get">GET</span> <span class="url">/api/champions/:id</span></h3>
                 <p>Haal één champion op.</p>
+                
+                <button class="btn-primary" onclick="testAPI('GET', '/api/champions/1', 'example2')">Test Voorbeeld</button>
+                <div id="example2" class="api-example"></div>
             </div>
 
             <div class="endpoint">
@@ -147,6 +153,7 @@
                     <li><code>difficulty</code> - Integer (1-10)</li>
                     <li><code>release_date</code> - String (YYYY-MM-DD, moet in verleden)</li>
                     <li><code>lore</code> - String (optioneel)</li>
+                    <li><code>image_url</code> - String (optioneel)</li>
                 </ul>
             </div>
 
@@ -165,6 +172,17 @@
             <div class="endpoint">
                 <h3><span class="method get">GET</span> <span class="url">/api/items</span></h3>
                 <p>Haal alle items op. Zelfde query parameters als champions.</p>
+                
+                <button class="btn-primary" onclick="testAPI('GET', '/api/items?limit=2&category=Magic', 'example3')">Test Voorbeeld</button>
+                <div id="example3" class="api-example"></div>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> <span class="url">/api/items/:id</span></h3>
+                <p>Haal één item op.</p>
+                
+                <button class="btn-primary" onclick="testAPI('GET', '/api/items/1', 'example4')">Test Voorbeeld</button>
+                <div id="example4" class="api-example"></div>
             </div>
 
             <div class="endpoint">
@@ -178,6 +196,7 @@
                     <li><code>cost</code> - Integer (>= 0)</li>
                     <li><code>category</code> - Damage, Defense, Magic, Movement, Consumable</li>
                     <li><code>stats</code> - String (optioneel)</li>
+                    <li><code>image_url</code> - String (optioneel)</li>
                 </ul>
             </div>
 

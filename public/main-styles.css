@@ -530,3 +530,31 @@ code {
     justify-content: flex-end;
     margin-top: 1rem;
 }
+
+.api-example {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(200, 155, 60, 0.3);
+}
+
+.api-example h4 {
+    color: #c89b3c;
+    margin-bottom: 0.5rem;
+}
+
+.api-example pre {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.api-example code {
+    color: #e0b456;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}

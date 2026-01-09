@@ -363,5 +363,23 @@ async function deleteItem(id) {
     }
 }
 
+// API Documentation Test Function
+async function testAPI(method, endpoint, elementId) {
+    const container = document.getElementById(elementId);
+    container.innerHTML = '<p style="color: #c89b3c;">Loading...</p>';
+    
+    try {
+        const response = await fetch(endpoint, { method });
+        const data = await response.json();
+        
+        const requestHtml = `<h4>Request:</h4><pre><code>${method} ${endpoint}</code></pre>`;
+        const responseHtml = `<h4>Response:</h4><pre><code>${JSON.stringify(data, null, 2)}</code></pre>`;
+        
+        container.innerHTML = requestHtml + responseHtml;
+    } catch (error) {
+        container.innerHTML = `<p style="color: #e74c3c;">Error: ${error.message}</p>`;
+    }
+}
+
 loadChampions();
 loadItems();
