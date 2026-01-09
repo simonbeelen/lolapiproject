@@ -43,9 +43,6 @@ const db = {
 };
 
 db.serialize(() => {
-    db.run(`DROP TABLE IF EXISTS items`);
-    db.run(`DROP TABLE IF EXISTS champions`);
-    
     db.run(`
         CREATE TABLE IF NOT EXISTS champions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
