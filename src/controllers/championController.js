@@ -75,14 +75,14 @@ const getChampionById = (req, res) => {
 
 // POST nieuwe champion
 const createChampion = (req, res) => {
-    const { name, title, role, difficulty, release_date, lore } = req.body;
+    const { name, title, role, difficulty, release_date, lore, image_url } = req.body;
 
     const query = `
-        INSERT INTO champions (name, title, role, difficulty, release_date, lore)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO champions (name, title, role, difficulty, release_date, lore, image_url)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    db.run(query, [name, title, role, difficulty, release_date, lore], function(err) {
+    db.run(query, [name, title, role, difficulty, release_date, lore, image_url], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -96,15 +96,15 @@ const createChampion = (req, res) => {
 // PUT update champion
 const updateChampion = (req, res) => {
     const id = req.params.id;
-    const { name, title, role, difficulty, release_date, lore } = req.body;
+    const { name, title, role, difficulty, release_date, lore, image_url } = req.body;
 
     const query = `
         UPDATE champions 
-        SET name = ?, title = ?, role = ?, difficulty = ?, release_date = ?, lore = ?
+        SET name = ?, title = ?, role = ?, difficulty = ?, release_date = ?, lore = ?, image_url = ?
         WHERE id = ?
     `;
 
-    db.run(query, [name, title, role, difficulty, release_date, lore, id], function(err) {
+    db.run(query, [name, title, role, difficulty, release_date, lore, image_url, id], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }

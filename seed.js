@@ -51,7 +51,7 @@ function mapItemCategory(tags) {
         return 'Consumable';
     }
     
-    return 'Damage'; // Default
+    return 'Damage'; 
 }
 
 function formatItemStats(stats) {
@@ -91,10 +91,13 @@ async function seedDatabase() {
         
         const items = Object.entries(itemsData.data)
             .filter(([id, item]) => {
-      
+                // Filter uit items zonder naam, zonder gold, zonder image
                 return item.name && 
+                       item.image &&
+                       item.image.full &&
                        !item.name.includes('Quick Charge') && 
                        !item.name.includes('Enchantment') &&
+                       !item.name.includes('Turret') &&
                        item.gold && 
                        item.gold.total > 0 &&
                        !item.requiredChampion; 
@@ -114,11 +117,14 @@ async function seedDatabase() {
                 const difficulty = Math.min(10, Math.max(1, Math.round(champion.info.difficulty)));
                 const lore = champion.blurb || `${champion.name}, ${champion.title}`;
                 
+                // Build the image URL from Data Dragon
+                const imageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.id}_0.jpg`;
+                
                 await new Promise((resolve, reject) => {
                     db.run(
-                        `INSERT INTO champions (name, title, role, difficulty, release_date, lore) 
-                         VALUES (?, ?, ?, ?, ?, ?)`,
-                        [champion.name, champion.title, role, difficulty, releaseDate, lore],
+                        `INSERT INTO champions (name, title, role, difficulty, release_date, lore, image_url) 
+                         VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                        [champion.name, champion.title, role, difficulty, releaseDate, lore, imageUrl],
                         function(err) {
                             if (err) {
 
@@ -157,11 +163,14 @@ async function seedDatabase() {
                 
                 const stats = item.stats ? formatItemStats(item.stats) : '';
                 
+                // Build the image URL from Data Dragon
+                const imageUrl = `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/item/${item.image.full}`;
+                
                 await new Promise((resolve, reject) => {
                     db.run(
-                        `INSERT INTO items (name, description, cost, category, stats) 
-                         VALUES (?, ?, ?, ?, ?)`,
-                        [item.name, description, cost, category, stats],
+                        `INSERT INTO items (name, description, cost, category, stats, image_url) 
+                         VALUES (?, ?, ?, ?, ?, ?)`,
+                        [item.name, description, cost, category, stats, imageUrl],
                         function(err) {
                             if (err) {
                                 // Skip duplicates

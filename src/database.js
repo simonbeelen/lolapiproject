@@ -18,6 +18,9 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 db.serialize(() => {
+    db.run(`DROP TABLE IF EXISTS items`);
+    db.run(`DROP TABLE IF EXISTS champions`);
+    
     db.run(`
         CREATE TABLE IF NOT EXISTS champions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,6 +30,7 @@ db.serialize(() => {
             difficulty INTEGER NOT NULL CHECK(difficulty >= 1 AND difficulty <= 10),
             release_date TEXT NOT NULL,
             lore TEXT,
+            image_url TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);
@@ -39,6 +43,7 @@ db.serialize(() => {
             cost INTEGER NOT NULL CHECK(cost >= 0),
             category TEXT NOT NULL,
             stats TEXT,
+            image_url TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);

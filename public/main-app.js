@@ -36,10 +36,10 @@ async function loadChampions() {
         grid.innerHTML = data.data.map(champion => `
             <div class="champion-card">
                 <img 
-                    src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.name}_0.jpg" 
+                    src="${champion.image_url || 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + champion.name + '_0.jpg'}" 
                     alt="${champion.name}"
                     class="champion-image"
-                    onerror="this.src='https://via.placeholder.com/280x200/1e2328/c89b3c?text=${champion.name}'"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22200%22%3E%3Crect fill=%22%231e2328%22 width=%22280%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%23c89b3c%22%3E${champion.name}%3C/text%3E%3C/svg%3E'"
                 >
                 <div class="champion-name">${champion.name}</div>
                 <div class="champion-title">${champion.title}</div>
@@ -99,10 +99,10 @@ async function loadItems() {
         grid.innerHTML = data.data.map(item => `
             <div class="item-card">
                 <img 
-                    src="https://ddragon.leagueoflegends.com/cdn/13.24.1/img/item/${getItemId(item.name)}.png" 
+                    src="${item.image_url || 'https://ddragon.leagueoflegends.com/cdn/13.24.1/img/item/1001.png'}" 
                     alt="${item.name}"
                     class="item-image"
-                    onerror="this.src='https://via.placeholder.com/280x200/1e2328/c89b3c?text=${encodeURIComponent(item.name)}'"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22200%22%3E%3Crect fill=%22%231e2328%22 width=%22280%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%23c89b3c%22%3E${item.name}%3C/text%3E%3C/svg%3E'"
                 >
                 <div class="item-name">${item.name}</div>
                 <div class="item-description">${item.description}</div>

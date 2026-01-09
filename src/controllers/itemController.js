@@ -1,5 +1,9 @@
 const db = require('../database');
 
+const isValidImageUrl = (url) => {
+    return url && (url.startsWith('http://') || url.startsWith('https://'));
+};
+
 const getAllItems = (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
@@ -12,14 +16,12 @@ const getAllItems = (req, res) => {
     let countQuery = 'SELECT COUNT(*) as total FROM items WHERE 1=1';
     const params = [];
 
-    // Search op meerdere velden
     if (search) {
         query += ' AND (name LIKE ? OR description LIKE ?)';
         countQuery += ' AND (name LIKE ? OR description LIKE ?)';
         params.push(`%${search}%`, `%${search}%`);
     }
-
-    // Filter op category
+ 
     if (category) {
         query += ' AND category = ?';
         countQuery += ' AND category = ?';
@@ -75,14 +77,14 @@ const getItemById = (req, res) => {
 
 // POST nieuw item
 const createItem = (req, res) => {
-    const { name, description, cost, category, stats } = req.body;
+    const { name, description, cost, category, stats, image_url } = req.body;
 
     const query = `
-        INSERT INTO items (name, description, cost, category, stats)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO items (name, description, cost, category, stats, image_url)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
-    db.run(query, [name, description, cost, category, stats], function(err) {
+    db.run(query, [name, description, cost, category, stats, image_url], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -96,15 +98,15 @@ const createItem = (req, res) => {
 // PUT update item
 const updateItem = (req, res) => {
     const id = req.params.id;
-    const { name, description, cost, category, stats } = req.body;
+    const { name, description, cost, category, stats, image_url } = req.body;
 
     const query = `
         UPDATE items 
-        SET name = ?, description = ?, cost = ?, category = ?, stats = ?
+        SET name = ?, description = ?, cost = ?, category = ?, stats = ?, image_url = ?
         WHERE id = ?
     `;
 
-    db.run(query, [name, description, cost, category, stats, id], function(err) {
+    db.run(query, [name, description, cost, category, stats, image_url, id], function(err) {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
