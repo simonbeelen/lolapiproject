@@ -34,8 +34,6 @@ npm start
 
 5. Open je browser en ga naar:
 - API Documentatie: http://localhost:3000
-- Visual Overview: http://localhost:3000/overview.html
-- Test een endpoint: http://localhost:3000/api/champions
 
 
 ```
