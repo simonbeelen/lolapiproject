@@ -46,7 +46,7 @@ db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS champions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
+            name TEXT NOT NULL UNIQUE,
             title TEXT NOT NULL,
             role TEXT NOT NULL,
             difficulty INTEGER NOT NULL CHECK(difficulty >= 1 AND difficulty <= 10),
@@ -60,7 +60,7 @@ db.serialize(() => {
     db.run(`
         CREATE TABLE IF NOT EXISTS items (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
+            name TEXT NOT NULL UNIQUE,
             description TEXT,
             cost INTEGER NOT NULL CHECK(cost >= 0),
             category TEXT NOT NULL,
